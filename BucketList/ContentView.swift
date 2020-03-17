@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import LocalAuthentication
 
 enum LoadingState {
     case loading, success, failed
@@ -48,10 +49,18 @@ struct ContentView: View {
         User(firstName: "David", lastName: "Lister")
     ].sorted()
     var loadingState = LoadingState.loading
+    @State private var isUnlocked = false
     
     var body: some View {
-        MapView()
-            .edgesIgnoringSafeArea(.all)
+        VStack {
+            if self.isUnlocked {
+                MapView()
+                    .edgesIgnoringSafeArea(.all)
+            } else {
+                Text("Locked")
+            }
+        }
+        .onAppear(perform: authenticate)
 //        Group {
 //            if loadingState == .loading {
 //                LoadingView()
@@ -69,6 +78,31 @@ struct ContentView: View {
 //                    FileManager.writeToDocumentsDirectory(data: str, file: fileName)
 //                }
 //        }
+    }
+    
+    func authenticate() {
+        let context = LAContext()
+        var error: NSError?
+        
+        // check whether biometric authentication is possible
+        if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+            // it's possible, so go ahead and use it
+            let reason = "We need to unlock"
+            
+            context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { success, authenticationError in
+                // authenticated successfully
+                DispatchQueue.main.async {
+                    if success {
+                        // authenticated successfully
+                        self.isUnlocked = true
+                    } else {
+                        // there was a problem
+                    }
+                }
+            }
+        } else {
+            // no biometrics
+        }
     }
 }
 
