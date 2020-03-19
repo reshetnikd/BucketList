@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		355419892423FEB5006FA967 /* MKAnnotation-ObservableObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 355419882423FEB5006FA967 /* MKAnnotation-ObservableObject.swift */; };
+		3554198B2423FF9C006FA967 /* EditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3554198A2423FF9C006FA967 /* EditView.swift */; };
 		35DE2BF3241F9A0700062B6B /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE2BF2241F9A0700062B6B /* AppDelegate.swift */; };
 		35DE2BF5241F9A0700062B6B /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE2BF4241F9A0700062B6B /* SceneDelegate.swift */; };
 		35DE2BF7241F9A0700062B6B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35DE2BF6241F9A0700062B6B /* ContentView.swift */; };
@@ -17,6 +19,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		355419882423FEB5006FA967 /* MKAnnotation-ObservableObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "MKAnnotation-ObservableObject.swift"; sourceTree = "<group>"; };
+		3554198A2423FF9C006FA967 /* EditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditView.swift; sourceTree = "<group>"; };
 		35DE2BEF241F9A0700062B6B /* BucketList.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BucketList.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		35DE2BF2241F9A0700062B6B /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		35DE2BF4241F9A0700062B6B /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -62,6 +66,8 @@
 				35DE2BF4241F9A0700062B6B /* SceneDelegate.swift */,
 				35DE2BF6241F9A0700062B6B /* ContentView.swift */,
 				35EFBF062420F2DD00A3145A /* MapView.swift */,
+				355419882423FEB5006FA967 /* MKAnnotation-ObservableObject.swift */,
+				3554198A2423FF9C006FA967 /* EditView.swift */,
 				35DE2BF8241F9A0900062B6B /* Assets.xcassets */,
 				35DE2BFD241F9A0900062B6B /* LaunchScreen.storyboard */,
 				35DE2C00241F9A0900062B6B /* Info.plist */,
@@ -149,7 +155,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				355419892423FEB5006FA967 /* MKAnnotation-ObservableObject.swift in Sources */,
 				35DE2BF3241F9A0700062B6B /* AppDelegate.swift in Sources */,
+				3554198B2423FF9C006FA967 /* EditView.swift in Sources */,
 				35EFBF072420F2DD00A3145A /* MapView.swift in Sources */,
 				35DE2BF5241F9A0700062B6B /* SceneDelegate.swift in Sources */,
 				35DE2BF7241F9A0700062B6B /* ContentView.swift in Sources */,
