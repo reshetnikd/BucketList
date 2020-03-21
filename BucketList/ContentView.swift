@@ -10,6 +10,48 @@ import SwiftUI
 import MapKit
 import LocalAuthentication
 
+struct MainScreenView: View {
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    @Binding var locations: [CodableMKPointAnnotation]
+    @Binding var selectedPlace: MKPointAnnotation?
+    @Binding var showingPlaceDetails: Bool
+    @Binding var showingEditScreen: Bool
+    
+    var body: some View {
+        ZStack {
+            MapView(centerCoordinate: $centerCoordinate, selectedPlace: $selectedPlace, showingPlaceDetails: $showingPlaceDetails, annotations: locations)
+                .edgesIgnoringSafeArea(.all)
+            Circle()
+                .fill(Color.blue)
+                .opacity(0.3)
+                .frame(width: 32, height: 32)
+            VStack {
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        let newLocation = CodableMKPointAnnotation()
+                        newLocation.title = "Example location"
+                        newLocation.coordinate = self.centerCoordinate
+                        self.locations.append(newLocation)
+                        self.selectedPlace = newLocation
+                        self.showingEditScreen = true
+                    }) {
+                        Image(systemName: "plus")
+                    }
+                    .padding()
+                    .background(Color.black.opacity(0.75))
+                    .foregroundColor(.white)
+                    .font(.title)
+                    .clipShape(Circle())
+                    .padding(.trailing)
+                }
+            }
+        }
+    }
+    
+}
+
 struct ContentView: View {
     @State private var centerCoordinate = CLLocationCoordinate2D()
     @State private var locations = [CodableMKPointAnnotation]()
@@ -17,38 +59,12 @@ struct ContentView: View {
     @State private var showingPlaceDetails = false
     @State private var showingEditScreen = false
     @State private var isUnlocked = false
+    @State private var authenticateErrorOccurred = false
     
     var body: some View {
         ZStack {
             if isUnlocked {
-                MapView(centerCoordinate: $centerCoordinate, selectedPlace: $selectedPlace, showingPlaceDetails: $showingPlaceDetails, annotations: locations)
-                    .edgesIgnoringSafeArea(.all)
-                Circle()
-                    .fill(Color.blue)
-                    .opacity(0.3)
-                    .frame(width: 32, height: 32)
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            let newLocation = CodableMKPointAnnotation()
-                            newLocation.title = "Example location"
-                            newLocation.coordinate = self.centerCoordinate
-                            self.locations.append(newLocation)
-                            self.selectedPlace = newLocation
-                            self.showingEditScreen = true
-                        }) {
-                            Image(systemName: "plus")
-                        }
-                        .padding()
-                        .background(Color.black.opacity(0.75))
-                        .foregroundColor(.white)
-                        .font(.title)
-                        .clipShape(Circle())
-                        .padding(.trailing)
-                    }
-                }
+                MainScreenView(centerCoordinate: $centerCoordinate, locations: $locations, selectedPlace: $selectedPlace, showingPlaceDetails: $showingPlaceDetails, showingEditScreen: $showingEditScreen)
             } else {
                 Button("Unlock Places") {
                     self.authenticate()
@@ -57,6 +73,9 @@ struct ContentView: View {
                 .background(Color.blue)
                 .foregroundColor(.white)
                 .clipShape(Capsule())
+                .alert(isPresented: $authenticateErrorOccurred) {
+                    Alert(title: Text("Authenticate Error"), message: Text("Error occurred while authentication process was running."), dismissButton: .default(Text("OK")))
+                }
             }
         }
         .alert(isPresented: $showingPlaceDetails) {
@@ -85,6 +104,7 @@ struct ContentView: View {
             locations = try JSONDecoder().decode([CodableMKPointAnnotation].self, from: data)
         } catch {
             print("Unable to load saved data.")
+            debugPrint(error)
         }
     }
     
@@ -110,7 +130,7 @@ struct ContentView: View {
                     if success {
                         self.isUnlocked = true
                     } else {
-                        // error
+                        self.authenticateErrorOccurred = true
                     }
                 }
             }
